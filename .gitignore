@@ -1,0 +1,3 @@
+.agent-guard/logs/
+__pycache__/
+*.pyc

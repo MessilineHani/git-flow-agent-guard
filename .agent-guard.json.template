@@ -1,0 +1,27 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MessilineHani/git-flow-agent-guard/main/schema.json",
+  "branching": {
+    "main_branch": "main",
+    "dev_branch": "dev",
+    "allowed_prefixes": ["feat/", "fix/", "chore/", "docs/", "refactor/"]
+  },
+  "verification": {
+    "lint_command": "npm run lint",
+    "typecheck_command": "npm run type-check",
+    "test_command": "npm run test",
+    "build_command": "npm run build"
+  },
+  "logging": {
+    "enable_dual_changelog": true,
+    "log_dir": ".agent-guard/logs"
+  },
+  "pull_policy": {
+    "analyze_before_merge": true,
+    "preferred_strategy": "rebase"
+  },
+  "risk_thresholds": {
+    "max_auto_merge_dev_score": 4,
+    "require_human_if_blast_radius": "HIGH",
+    "require_human_if_revert_cost": "HIGH"
+  }
+}
