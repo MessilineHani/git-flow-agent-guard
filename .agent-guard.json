@@ -5,10 +5,10 @@
     "release_prefix": "release/"
   },
   "verification": {
-    "lint_command": "",
-    "typecheck_command": "",
-    "test_command": "",
-    "build_command": ""
+    "lint_command": "python -m ruff check scripts/",
+    "typecheck_command": "python -m mypy scripts/lib/guard.py",
+    "test_command": "python -m pytest tests/ -v",
+    "build_command": "python -m py_compile scripts/analyze-pull.py scripts/evaluate-risk.py scripts/lib/guard.py"
   },
   "risk": {
     "revert_cost_patterns": {
@@ -18,27 +18,29 @@
         "*.sql",
         "*.prisma",
         "*.proto",
-        "docker-compose",
-        ".github/workflows",
-        "terraform",
-        "kubernetes",
-        "helm",
+        "docker-compose*",
+        ".github/workflows/*",
+        "terraform/*",
+        "kubernetes/*",
+        "helm/*",
         "package-lock.json",
         "yarn.lock",
         "pnpm-lock.yaml",
         "Cargo.lock",
         "go.sum",
         "requirements.txt",
-        "pyproject.toml"
+        "pyproject.toml",
+        "Pipfile.lock",
+        "poetry.lock"
       ],
       "MEDIUM": [
-        "config",
-        "settings",
+        "config*",
+        "settings*",
         "*.yaml",
         "*.yml",
         "*.toml",
         "*.ini",
-        "*.env*"
+        ".env*"
       ]
     }
   }
