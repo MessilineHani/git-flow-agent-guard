@@ -5,10 +5,10 @@
     "release_prefix": "release/"
   },
   "verification": {
-    "lint_command": "python -m ruff check scripts/",
-    "typecheck_command": "python -m mypy scripts/lib/guard.py",
-    "test_command": "python -m pytest tests/ -v",
-    "build_command": "python -m py_compile scripts/analyze-pull.py scripts/evaluate-risk.py scripts/lib/guard.py"
+    "lint_command": "",
+    "typecheck_command": "",
+    "test_command": "",
+    "build_command": ""
   },
   "risk": {
     "revert_cost_patterns": {

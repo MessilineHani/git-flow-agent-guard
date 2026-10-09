@@ -1,9 +1,11 @@
 ---
 name: git-flow-agent-guard
-description: Stack-agnostic agent skill enforcing strict branch protection, local CI pre-flight verification, dual-tier risk scoring, atomic release tracking, audit logging, and upstream synchronization mapping.
+description: Stack-agnostic agent skill enforcing strict branch protection, local CI pre-flight verification, dual-tier risk scoring, atomic release tracking, audit logging, and upstream synchronization mapping. Works with ANY tech stack (Rust, Go, Node, Python, Java, .NET, etc.) — configure your own verification commands in .agent-guard.json.
 ---
 
 # Git Flow Agent Guard Directive
+
+> **Stack-Agnostic:** This skill does not assume any programming language or framework. The evaluation scripts (`scripts/analyze-pull.py`, `scripts/evaluate-risk.py`) run on Python 3.8+ but analyze YOUR repository using YOUR configured commands. Configure `.agent-guard.json` for your stack.
 
 ## 1. Branching & Scope Isolation
 - Inspect `.agent-guard.json` at project root for configuration.

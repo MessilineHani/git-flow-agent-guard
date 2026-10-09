@@ -1,3 +1,33 @@
+# git-flow-agent-guard local logs and state
 .agent-guard/logs/
+.agent-guard/state/
+
+# Python cache (if using Python for evaluation)
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config (copy from template)
+.agent-guard.json
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/

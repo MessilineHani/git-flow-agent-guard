@@ -5,8 +5,8 @@
 
 set -euo pipefail
 
-REPO_URL="https://github.com/<owner>/git-flow-agent-guard"
-RAW_BASE="https://raw.githubusercontent.com/<owner>/git-flow-agent-guard/main"
+REPO_URL="https://github.com/MessilineHani/git-flow-agent-guard"
+RAW_BASE="https://raw.githubusercontent.com/MessilineHani/git-flow-agent-guard/main"
 TARGET_DIR="."
 AGENT=""
 
