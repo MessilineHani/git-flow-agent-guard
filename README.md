@@ -31,7 +31,24 @@
 
 ## Quick Start
 
-### One-line Install (Recommended)
+### For Non-Technical Users (Recommended) — Zero Config
+
+Run the **bootstrap skill** once — it asks your stack, installs everything, and configures your commands:
+
+```bash
+# 1. Install bootstrap skill (one-time)
+curl -fsSL https://raw.githubusercontent.com/MessilineHani/git-flow-agent-guard/main/SKILL.bootstrap.md -o .cursorrules  # or .windsurfrules, .claude/skills/bootstrap.md
+
+# 2. Tell your agent: "Run the git-flow-agent-guard-bootstrap skill"
+#    → It will ask your stack, run installer, write YOUR commands to .agent-guard.json
+
+# 3. After bootstrap says "done", replace bootstrap skill with main skill:
+curl -fsSL https://raw.githubusercontent.com/MessilineHani/git-flow-agent-guard/main/SKILL.md -o .cursorrules  # or your agent's config
+```
+
+> The bootstrap skill (`SKILL.bootstrap.md`) is a one-time setup wizard. Discard it after use.
+
+### Manual Install (Developers)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/MessilineHani/git-flow-agent-guard/main/install.sh | bash
@@ -307,7 +324,10 @@ The risk engine classifies changed files to determine revert cost. Patterns cove
 
 ---
 
-## Development (for THIS Repo)
+## Development (for THIS Repo Only)
+
+> ⚠️ **This section is for contributors to git-flow-agent-guard itself.**  
+> **Users of the skill do NOT need any of this.** Your project uses YOUR commands from `.agent-guard.json` — not ruff/mypy/pytest.
 
 ### Requirements
 - Python 3.8+

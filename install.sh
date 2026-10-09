@@ -56,6 +56,7 @@ echo "Installing to: $TARGET_DIR"
 # Files to copy
 FILES=(
     "SKILL.md"
+    "SKILL.bootstrap.md"
     "scripts/analyze-pull.py"
     "scripts/evaluate-risk.py"
     "scripts/lib/guard.py"
