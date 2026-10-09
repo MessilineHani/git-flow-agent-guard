@@ -1,52 +1,28 @@
 import subprocess
-import os
-import argparse
+import json
 
-def run_cmd(cmd):
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    return result.stdout.strip()
-
-def analyze(target_branch):
-    os.makedirs(os.path.join(".agent-guard", "logs"), exist_ok=True)
+def evaluate_diff():
+    diff_stat = subprocess.run("git diff dev --stat", shell=True, capture_output=True, text=True).stdout.strip()
     
-    run_cmd(f"git fetch origin {target_branch}")
-    base_hash = run_cmd(f"git merge-base HEAD origin/{target_branch}")
-    local_hash = run_cmd("git rev-parse HEAD")
-    upstream_hash = run_cmd(f"git rev-parse origin/{target_branch}")
+    files_changed = len(diff_stat.splitlines())
     
-    local_files = set(run_cmd(f"git diff --name-only {base_hash} HEAD").splitlines())
-    upstream_files = set(run_cmd(f"git diff --name-only {base_hash} origin/{target_branch}").splitlines())
+    dev_risk = min(5, max(1, files_changed // 3 + 1))
+    main_risk = min(5, dev_risk + 1)
     
-    overlapping = list(local_files.intersection(upstream_files))
+    blast_radius = "HIGH" if files_changed > 10 else ("MEDIUM" if files_changed > 4 else "LOW")
+    revert_cost = "LOW"
     
-    report = f"""# Upstream Pull Reconciliation Analysis
-
-## Synchronization Metadata
-- Local HEAD: `{local_hash[:7]}`
-- Upstream (`origin/{target_branch}`): `{upstream_hash[:7]}`
-- Common Ancestor Base: `{base_hash[:7]}`
-
-## Divergence Metrics
-- Local Modified Files: {len(local_files)}
-- Upstream Modified Files: {len(upstream_files)}
-- **Overlapping/Conflicting Files:** {len(overlapping)}
-
-## Overlapping File Paths
-"""
-    if overlapping:
-        for f in overlapping:
-            report += f"- ⚠️ `{f}` (Requires agent reconciliation pass)\n"
-    else:
-        report += "No file overlaps detected. Clean rebase/merge expected.\n"
-        
-    log_path = os.path.join(".agent-guard", "logs", "LAST_PULL_ANALYSIS.md")
-    with open(log_path, "w", encoding="utf-8") as f:
-        f.write(report)
-        
-    print(f"Analysis written to {log_path} | Overlaps: {len(overlapping)}")
+    auto_merge_dev = (dev_risk <= 3) or (dev_risk == 4 and blast_radius == "LOW" and revert_cost == "LOW")
+    
+    result = {
+        "dev_risk_score": dev_risk,
+        "main_risk_score": main_risk,
+        "blast_radius": blast_radius,
+        "revert_cost": revert_cost,
+        "auto_merge_dev_allowed": auto_merge_dev
+    }
+    
+    print(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--target", default="dev", help="Target branch to analyze")
-    args = parser.parse_args()
-    analyze(args.target)
+    evaluate_diff()
