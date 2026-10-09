@@ -41,6 +41,12 @@ jobs:
         run: |
           git config user.email "ci@github.com"
           git config user.name "GitHub Actions"
+          git fetch origin
+          # CI checks out a single branch; ensure local dev/main exist so
+          # `git diff <target>` in the guard scripts never hits "unknown revision".
+          # Prefer origin/dev when it exists, else fall back to origin/main.
+          git show-ref --verify --quiet refs/heads/dev || (git show-ref --verify --quiet refs/remotes/origin/dev && git branch dev origin/dev || git branch dev origin/main)
+          git show-ref --verify --quiet refs/heads/main || git branch main origin/main
           python scripts/evaluate-risk.py --target dev
           python scripts/analyze-pull.py --target main
 
